@@ -1,0 +1,31 @@
+#!/system/bin/sh
+
+
+setenforce 0
+ 
+
+if [ ! -e /system/xbin/chattr ];then
+    mount -o rw,remount /system
+	chmod 0755 /system/xbin/busybox
+    busybox --install -s  /system/xbin  
+fi
+
+
+# init.d support
+if [ ! -d /system/etc/init.d ]; then
+    mount -o rw,remount /system
+    mkdir /system/etc/init.d
+    chmod -R 755 /system/etc/init.d
+fi
+
+if [ -d /system/etc/init.d ]; then
+    mount -o rw,remount /system
+    chmod -R 755 /system/etc/init.d
+    run-parts /system/etc/init.d
+fi
+
+
+
+
+
+
